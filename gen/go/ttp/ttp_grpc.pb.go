@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Ttp_Pay_FullMethodName = "/ttp.Ttp/Pay"
+	TtpGateway_Pay_FullMethodName = "/ttp.TtpGateway/Pay"
 )
 
-// TtpClient is the client API for Ttp service.
+// TtpGatewayClient is the client API for TtpGateway service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TtpClient interface {
+type TtpGatewayClient interface {
 	Pay(ctx context.Context, in *PayRequest, opts ...grpc.CallOption) (*PayResponse, error)
 }
 
-type ttpClient struct {
+type ttpGatewayClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTtpClient(cc grpc.ClientConnInterface) TtpClient {
-	return &ttpClient{cc}
+func NewTtpGatewayClient(cc grpc.ClientConnInterface) TtpGatewayClient {
+	return &ttpGatewayClient{cc}
 }
 
-func (c *ttpClient) Pay(ctx context.Context, in *PayRequest, opts ...grpc.CallOption) (*PayResponse, error) {
+func (c *ttpGatewayClient) Pay(ctx context.Context, in *PayRequest, opts ...grpc.CallOption) (*PayResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PayResponse)
-	err := c.cc.Invoke(ctx, Ttp_Pay_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TtpGateway_Pay_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TtpServer is the server API for Ttp service.
-// All implementations must embed UnimplementedTtpServer
+// TtpGatewayServer is the server API for TtpGateway service.
+// All implementations must embed UnimplementedTtpGatewayServer
 // for forward compatibility.
-type TtpServer interface {
+type TtpGatewayServer interface {
 	Pay(context.Context, *PayRequest) (*PayResponse, error)
-	mustEmbedUnimplementedTtpServer()
+	mustEmbedUnimplementedTtpGatewayServer()
 }
 
-// UnimplementedTtpServer must be embedded to have
+// UnimplementedTtpGatewayServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedTtpServer struct{}
+type UnimplementedTtpGatewayServer struct{}
 
-func (UnimplementedTtpServer) Pay(context.Context, *PayRequest) (*PayResponse, error) {
+func (UnimplementedTtpGatewayServer) Pay(context.Context, *PayRequest) (*PayResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Pay not implemented")
 }
-func (UnimplementedTtpServer) mustEmbedUnimplementedTtpServer() {}
-func (UnimplementedTtpServer) testEmbeddedByValue()             {}
+func (UnimplementedTtpGatewayServer) mustEmbedUnimplementedTtpGatewayServer() {}
+func (UnimplementedTtpGatewayServer) testEmbeddedByValue()                    {}
 
-// UnsafeTtpServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TtpServer will
+// UnsafeTtpGatewayServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TtpGatewayServer will
 // result in compilation errors.
-type UnsafeTtpServer interface {
-	mustEmbedUnimplementedTtpServer()
+type UnsafeTtpGatewayServer interface {
+	mustEmbedUnimplementedTtpGatewayServer()
 }
 
-func RegisterTtpServer(s grpc.ServiceRegistrar, srv TtpServer) {
-	// If the following call pancis, it indicates UnimplementedTtpServer was
+func RegisterTtpGatewayServer(s grpc.ServiceRegistrar, srv TtpGatewayServer) {
+	// If the following call pancis, it indicates UnimplementedTtpGatewayServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Ttp_ServiceDesc, srv)
+	s.RegisterService(&TtpGateway_ServiceDesc, srv)
 }
 
-func _Ttp_Pay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TtpGateway_Pay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PayRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TtpServer).Pay(ctx, in)
+		return srv.(TtpGatewayServer).Pay(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Ttp_Pay_FullMethodName,
+		FullMethod: TtpGateway_Pay_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TtpServer).Pay(ctx, req.(*PayRequest))
+		return srv.(TtpGatewayServer).Pay(ctx, req.(*PayRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Ttp_ServiceDesc is the grpc.ServiceDesc for Ttp service.
+// TtpGateway_ServiceDesc is the grpc.ServiceDesc for TtpGateway service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Ttp_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ttp.Ttp",
-	HandlerType: (*TtpServer)(nil),
+var TtpGateway_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "ttp.TtpGateway",
+	HandlerType: (*TtpGatewayServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Pay",
-			Handler:    _Ttp_Pay_Handler,
+			Handler:    _TtpGateway_Pay_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

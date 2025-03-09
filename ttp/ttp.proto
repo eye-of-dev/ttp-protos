@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+package ttp;
+
+option go_package = "eye-of-dev.ttp.v1;ttp1";
+
+service TtpGateway {
+    rpc Pay (PayRequest) returns (PayResponse) {
+        option (google.api.http) = {
+            post: "/ttp/pay"
+            body: "*"
+        };
+    };
+}
+
+message PayRequest {
+    string TransactionId = 1;
+    string Amount = 2;
+    string InvoiceId = 3;
+}
+
+message PayResponse {
+    string code = 1;
+}
